@@ -5,13 +5,7 @@ import SideBarVue from './components/SideBar.vue';
 </script>
 
 <template>
-  <div class="content">
-    <side-bar-vue/>
-    <div class="wrapper">
-      <nav-bar-vue/>
-      <RouterView />
-    </div>
-  </div>
+  <RouterView />
 </template>
 
 <style>

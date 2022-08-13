@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { defineEmits,ref } from "vue";
+import { ref } from "vue";
 const siteViews = ref(16);
 const publishedWorks = ref(58);
 const drafts = ref(68);
