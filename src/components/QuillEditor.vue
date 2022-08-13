@@ -2,8 +2,9 @@
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { ref, reactive, onBeforeMount } from "vue";
+import { ref, reactive, onMounted,computed, onBeforeMount } from "vue";
 // import project store
+import { useProjectsStore } from "../stores/projects";
 const props = defineProps({
   propsTitle: String,
   propsRole: String,
@@ -13,17 +14,14 @@ const props = defineProps({
   propsContent: String,
   propsDuration: String,
 })
-// const store = useProjectsStore();
-
 // reassigned values of the props when editing
-  const editTitle = ref(props?.propsTitle);
-  const editRole = ref(props?.propsRole);
-  const editMembers = ref(props?.propsMembers);
-  const editScope = ref(props?.propsScope);
-  const editTools = ref(props?.propsTools);
-  const editDuration = ref(props?.propsDuration);
+  const editTitle = ref(props.propsTitle);
+  const editRole = ref(props.propsRole);
+  const editMembers = ref(props.propsMembers);
+  const editScope = ref(props.propsScope);
+  const editTools = ref(props.propsTools);
+  const editDuration = ref(props.propsDuration);
 // const editContent = ref(props.propsContent)
-
 const store = useProjectsStore();
 
 const project = reactive({
@@ -40,13 +38,24 @@ const project = reactive({
 const projectImg = ref(false)
 // on Mounted
 onBeforeMount(()=>{
-  project.title = editTitle;
-  project.role = editRole;
-  project.members = editMembers;
-  project.scope = editScope;
-  project.tools = editTools;
-  project.duration = editDuration;
-  
+  project.title = computed(()=>{
+    return editTitle.value
+  })
+  project.role = computed(()=>{
+    return editRole.value
+  })
+  project.members = computed(()=>{
+    return editMembers.value
+  })
+  project.scope = computed(()=>{
+    return editScope.value
+  })
+  project.tools = computed(()=>{
+    return editTools.value
+  });
+  project.duration = computed(()=>{
+    return editDuration.value
+  });
 })
 // handle image upload
 function handleproImgUpload(e) {
@@ -73,7 +82,7 @@ project.content = text;
 
 </script>
 <template>
-  {{editTitle}}
+  {{project.title}}
   <div class="btn-row flex flex-row justify-end my-2">
     <button
       class="bg-slate-800 rounded px-4 py-2 mt-4 outline-none hover:bg-slate-500 mr-4 text-white"
@@ -96,21 +105,21 @@ project.content = text;
       >
       <input
         class="border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 outline-none px-4 py-2 rounded"
-        :v-model="project.title"
+        v-model="project.title"
       />
     </label>
     <label class="block">
       <span class="block text-sm font-medium text-slate-700">My Role</span>
       <input
         class="border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 outline-none px-4 py-2 rounded"
-        :v-model="project.role"
+        v-model="project.role"
       />
     </label>
     <label class="block">
       <span class="block text-sm font-medium text-slate-700">Team Members</span>
       <input
         class="border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 outline-none px-4 py-2 rounded"
-        :v-model="project.members"
+        v-model="project.members"
       />
       <p class="text-slate-400 text-xs mt-1">
         Please seperate each member with a comma
@@ -122,21 +131,21 @@ project.content = text;
       >
       <input
         class="border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 outline-none px-4 py-2 rounded"
-        :v-model="project.scope"
+        v-model="project.scope"
       />
     </label>
     <label class="block">
       <span class="block text-sm font-medium text-slate-700">Duration</span>
       <input
         class="border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 outline-none px-4 py-2 rounded"
-        :v-model="project.duration"
+        v-model="project.duration"
       />
     </label>
     <label class="block">
       <span class="block text-sm font-medium text-slate-700">Tools</span>
       <input
         class="border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 outline-none px-4 py-2 rounded"
-        :v-model="project.tools"
+        v-model="project.tools"
       />
       <p class="text-slate-400 text-xs mt-1">
         Please seperate each tool with a comma

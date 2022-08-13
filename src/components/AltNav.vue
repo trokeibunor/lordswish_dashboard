@@ -24,6 +24,7 @@
       class="top-card-box"
       id="published_active"
       :class="{ active: toggler.published_active }"
+      @click="notEditing"
     >
       <h4 class="muted">Published</h4>
       <h3>{{ publishedWorks }}</h3>
@@ -40,7 +41,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { defineEmits,ref } from "vue";
 const siteViews = ref(16);
 const publishedWorks = ref(58);
 const drafts = ref(68);
@@ -51,6 +52,9 @@ const toggler = ref({
   published_active: false,
   drafts_active: false,
 });
+function notEditing(){
+  this.$emit('editing', 'false')
+}
 </script>
 
 <style scoped>

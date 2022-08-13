@@ -1,5 +1,5 @@
 <template>
-  <alt-nav-vue />
+  <alt-nav-vue @notEditing="notEdit($event)" />
   <main v-if="!editing" >
 
     <!-- List of published works -->
@@ -78,6 +78,9 @@ function conBox(event){
   if(step % 2 === 0){
     selectedBox.value = ''
   }
+}
+function notEdit(value){
+  this.editing = value
 }
 function editArt(event){
   let title = event.target.id;
