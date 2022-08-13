@@ -1,6 +1,7 @@
 <template>
   <alt-nav-vue />
   <main v-if="!editing" >
+
     <!-- List of published works -->
     <div
       class="article-grid grid grid-cols-3 gap-2 w-11/12 mx-auto"
@@ -89,7 +90,6 @@ function deleteArt(event){
     projectArray.deleteResource(title)
   }
 }
-
 // on mounted
 onMounted(() => {
   projectArray.getArticles()

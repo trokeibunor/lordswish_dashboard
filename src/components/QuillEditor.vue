@@ -4,7 +4,6 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 import { ref, reactive, onBeforeMount } from "vue";
 // import project store
-import {useProjectsStore} from "../stores/projects"
 const props = defineProps({
   propsTitle: String,
   propsRole: String,
@@ -14,7 +13,7 @@ const props = defineProps({
   propsContent: String,
   propsDuration: String,
 })
-const store = useProjectsStore();
+// const store = useProjectsStore();
 
 // reassigned values of the props when editing
   const editTitle = ref(props?.propsTitle);
@@ -25,7 +24,8 @@ const store = useProjectsStore();
   const editDuration = ref(props?.propsDuration);
 // const editContent = ref(props.propsContent)
 
-// basic input
+const store = useProjectsStore();
+
 const project = reactive({
   title: "",
   role: "",
