@@ -7,7 +7,7 @@ import { RouterLink } from "vue-router";
 <template>
   <aside>
     <div class="top">
-      <router-link to="/"
+      <router-link to="/home"
         ><img src="./icons/chartIcon.svg" /> Dashboard</router-link
       >
       <router-link to="/projects"
@@ -57,5 +57,10 @@ aside > .bottom > a {
 .bottom > a > img {
   width: 24px;
   color: #a4a6b3;
+}
+@media (max-width: 768px){
+  aside{
+    display: none;
+  }
 }
 </style>

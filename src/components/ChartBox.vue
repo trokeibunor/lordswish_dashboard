@@ -1,6 +1,5 @@
 <template>
   <Chart
-    :size="{ width: `${width}`, height: 420 }"
     :data="data"
     :margin="margin"
     :direction="direction"
@@ -39,21 +38,22 @@ import { plByMonth } from "../data/chartdata";
 const data = ref(plByMonth);
 const direction = ref("horizontal");
 const margin = ref({
-  left: 0,
+  left: 20,
   top: 20,
-  right: 20,
-  bottom: 0,
+  right: 0,
+  bottom: 20,
 });
-const width = 650;
+// const width = "100%";
+// const height = "100%"
 const axis = ref({
   primary: {
     type: "band",
-    format: (val) => {
-      if (val === "Feb") {
-        return "😜";
-      }
-      return val;
-    },
+    // format: (val) => {
+    //   if (val === "Feb") {
+    //     return "😜";
+    //   }
+    //   return val;
+    // },
   },
   secondary: {
     domain: ["dataMin", "dataMax + 100"],

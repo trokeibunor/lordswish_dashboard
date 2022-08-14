@@ -65,6 +65,11 @@ function notEditing(){
   width: 95%;
   margin: 1rem auto;
 }
+@media (max-width: 768px){
+  .top-card-row{
+    grid-template-columns: 1fr 1fr;
+  }
+}
 .top-card-box {
   background-color: #fff;
   width: auto;

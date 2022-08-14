@@ -27,4 +27,9 @@ body{
   display: grid;
   grid-template-columns: 20% 1fr;
 }
+@media (max-width: 786px) {
+  .content{
+    display: block;
+  }
+}
 </style>

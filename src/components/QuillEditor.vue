@@ -91,14 +91,14 @@ project.content = text;
       Add Article
     </button>
     <button
-      @click="store.getToast()"
+      @click="store.addDraft({...project})"
       class="bg-gray-300 rounded px-4 py-2 mt-4 outline-none hover:bg-gray-600 text-white"
     >
       Save as draft
     </button>
   </div>
   <!-- Entry form -->
-  <div class="basic_details grid grid-cols-4 gap-2 my-4">
+  <div class="basic_details grid grid-cols-auto lg:grid-cols-4 gap-2 my-4">
     <label class="block">
       <span class="block text-sm font-medium text-slate-700"
         >Project Title</span
@@ -152,10 +152,10 @@ project.content = text;
       </p>
     </label>
     <label class="block">
-      <span class="sr-only">Choose Main image</span>
+      <span class="block text-sm font-medium text-slate-700">Choose Main image</span>
       <input
         type="file"
-        class="block pt-5 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-slate-700 hover:file:bg-violet-100"
+        class="block pt-1 text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-slate-700 hover:file:bg-violet-100"
         @change="handleproImgUpload"
         :state="Boolean(projectImg)"
       />
@@ -164,9 +164,13 @@ project.content = text;
   <QuillEditor
     theme="snow"
     toolbar="full"
-    class="bg-white"
+    class="bg-white my-3"
     v-model:content="project.content"
     contentType="html"
   />
 </template>
-<style lang="scss" scoped></style>
+<style  scoped>
+input{
+  width: 100%;
+}
+</style>

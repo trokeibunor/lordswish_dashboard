@@ -1,16 +1,16 @@
 <template>
   <div class="content">
-    <side-bar/>
+    <Sidebar/>
     <div class="wrapper">
       <nav-bar/>
       <alt-nav-vue @notEditing="notEdit($event)" />
       <main v-if="!editing" >
         <!-- List of published works -->
         <div
-          class="article-grid grid grid-cols-3 gap-2 w-11/12 mx-auto"
+          class="article-grid grid grid-cols-auto lg:grid-cols-3 gap-2 w-11/12 mx-auto"
           
         >
-          <div class="article-box w-auto bg-white p-2 rounded hover:shadow-sm" 
+          <div class="article-box w-auto h-auto bg-white p-2 rounded hover:shadow-sm" 
             :id="item?.title"
             v-for="item in projectArray.projectInfo"
             :key="item?.title"
@@ -71,6 +71,7 @@ import QuillEditor from "../components/QuillEditor.vue"
 // import store
 import { useProjectsStore } from "../stores/projects";
 import NavBar from "../components/NavBar.vue";
+import Sidebar from "../components/SideBar.vue"
 const projectArray = useProjectsStore();
 const selectedBox = ref('');
 const editing = ref(false);
@@ -109,11 +110,12 @@ onMounted(() => {
 <style>
 .article-box {
   cursor: pointer;
-  height: 18rem;
+  max-height: 19rem;
 }
 .article-box > img {
   object-fit: cover;
   width: 100%;
-  height: 13rem;
+  min-height: 13rem;
+  max-height: 13.5rem;
 }
 </style>

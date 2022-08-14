@@ -1,7 +1,7 @@
 <template>
-    <section class="chart-notif flex flex-row gap-4 w-11/12 mx-auto">
+    <section class="chart-notif flex flex-col lg:flex-row gap-4 w-11/12 mx-auto">
       <chart-box class="w-8/12 rounded" />
-      <div class="notifications w-4/12 bg-white p-4 rounded">
+      <div class="notifications w-12/12 lg:w-4/12 bg-white p-4 rounded mb-4">
         <h3 class="font-bold">Notification</h3>
         <hr />
         <ul class="list-none fixed-list">
