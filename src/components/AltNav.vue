@@ -4,18 +4,16 @@
       class="top-card-box"
       id="new_active"
       to="/projects"
-      @click="
-        toggler.new_active = false;
-        toggler.published_active = false;
-        toggler.drafts_active = false;
-      "
-      :class="{ active: toggler.new_active }"
+      @click="chooseSelected('new'), altNavData.changeView('Dashboard')"
+      :class="{active: altNavData.pageTracker == 'new'}"
     >
       <h2>New</h2>
     </router-link>
     <div
-      class="top-card-box bg-slate-800"
+      class="top-card-box"
       id="view_active"
+      :class="{active: altNavData.pageTracker == 'views'}"
+      @click="chooseSelected('views'), altNavData.changeView('Dashboard')"
     >
       <h4 class="muted">Views</h4>
       <h3>{{ siteViews }}</h3>
@@ -23,8 +21,8 @@
     <router-link to="/published"
       class="top-card-box"
       id="published_active"
-      :class="{ active: toggler.published_active }"
-      @click="notEditing"
+      :class="{ active: altNavData.pageTracker == 'published'}"
+      @click="chooseSelected('published'), altNavData.changeView('Dashboard')"
     >
       <h4 class="muted">Published</h4>
       <h3>{{ publishedWorks }}</h3>
@@ -32,7 +30,8 @@
     <div
       class="top-card-box"
       id="drafts_active"
-      :class="{ active: toggler.drafts_active }"
+      @click="chooseSelected('drafts')"
+      :class="{active: altNavData.pageTracker == 'drafts'}, altNavData.changeView('Dashboard')"
     >
       <h4 class="muted">Drafts/Archieves</h4>
       <h3>{{ drafts }}</h3>
@@ -42,18 +41,18 @@
 
 <script setup>
 import { ref } from "vue";
+import { useAppData } from "../stores/data";
+
+const altNavData = useAppData()
 const siteViews = ref(16);
 const publishedWorks = ref(58);
 const drafts = ref(68);
-// toggler
-const toggler = ref({
-  new_active: false,
-  view_active: false,
-  published_active: false,
-  drafts_active: false,
-});
-function notEditing(){
-  this.$emit('editing', 'false')
+// function notEditing(){
+//   this.$emit('editing', 'false')
+// }
+function chooseSelected(selectedView){
+  // useAppData.setPage(selectedView)
+  altNavData.setPage(selectedView)
 }
 </script>
 
@@ -83,7 +82,7 @@ function notEditing(){
   cursor: pointer;
 }
 .top-card-box:nth-child(2){
-  background-color: #888;
+  
   cursor:not-allowed;
 }
 .top-card-box:hover {
@@ -91,6 +90,7 @@ function notEditing(){
 }
 .active {
   border: 2px solid #444;
+  background-color: #888;
 }
 .top-card-box > h2 {
   font-size: 32px;

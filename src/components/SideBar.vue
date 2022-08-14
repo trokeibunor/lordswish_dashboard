@@ -1,28 +1,34 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { useAppData } from '../stores/data';
+const appData = useAppData()
 // icons
 // import {ref} from 'vue';
 
 </script>
 <template>
-  <aside>
+  <aside v-show="appData.sidebar">
     <div class="top">
-      <router-link to="/home"
-        ><img src="./icons/chartIcon.svg" /> Dashboard</router-link
+      <router-link  @click="appData.changeView('Dashboard'), appData.setPage('')" to="/home"
+        ><img src="./icons/chartIcon.svg" 
+        /> Dashboard</router-link
       >
-      <router-link to="/projects"
-        ><img src="./icons/penIcon.svg" />Projects</router-link
+      <router-link @click="appData.changeView('Projects'), appData.setPage('')" to="/projects" 
+        ><img src="./icons/penIcon.svg" 
+        />Projects</router-link
       >
-      <router-link to="/messages"
-        ><img src="./icons/mailIcon.svg" />Messages</router-link
+      <router-link @click="appData.changeView('Messages'), appData.setPage('')" to="/messages"
+        ><img src="./icons/mailIcon.svg" 
+        />Messages</router-link
       >
     </div>
     <div class="bottom">
-      <router-link to="/settings"
-        ><img src="./icons/settingsIcon.svg" />Settings</router-link
+      <router-link @click="appData.changeView('Settings') , appData.setPage('')" to="/settings"
+        ><img src="./icons/settingsIcon.svg" 
+        />Settings</router-link
       >
-      <router-link to="logOut"
-        ><img src="./icons/logOutIcon.svg" />Logout</router-link
+      <router-link @click="appData.changeView('Dashboard') , appData.setPage('')" to="logOut"
+        ><img src="./icons/logOutIcon.svg" 
+        />Logout</router-link
       >
     </div>
   </aside>
@@ -60,7 +66,15 @@ aside > .bottom > a {
 }
 @media (max-width: 768px){
   aside{
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 75%;
+    min-height: 100vh;
+    align-items: flex-start;
+  }
+  aside > div{
+    margin-left: 1.5rem;
   }
 }
 </style>

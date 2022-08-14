@@ -8,7 +8,7 @@ import {
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // import vue toastification
 import { useToast } from "vue-toastification";
-export const useUgoStore = defineStore({
+export const useUgoStore = defineStore('ugo',{
   id: "ugo",
   state: () => ({
     ugoAbout: "",
