@@ -72,6 +72,7 @@ aside > .bottom > a {
     width: 75%;
     min-height: 100vh;
     align-items: flex-start;
+    z-index: 100;
   }
   aside > div{
     margin-left: 1.5rem;
