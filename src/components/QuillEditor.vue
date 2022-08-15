@@ -2,26 +2,9 @@
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { ref, reactive, onMounted,computed, onBeforeMount } from "vue";
+import { ref, reactive, onBeforeUpdate } from "vue";
 // import project store
 import { useProjectsStore } from "../stores/projects";
-const props = defineProps({
-  propsTitle: String,
-  propsRole: String,
-  propsMembers:String,
-  propsScope: String,
-  propsTools: String,
-  propsContent: String,
-  propsDuration: String,
-})
-// reassigned values of the props when editing
-  const editTitle = ref(props.propsTitle);
-  const editRole = ref(props.propsRole);
-  const editMembers = ref(props.propsMembers);
-  const editScope = ref(props.propsScope);
-  const editTools = ref(props.propsTools);
-  const editDuration = ref(props.propsDuration);
-// const editContent = ref(props.propsContent)
 const store = useProjectsStore();
 
 const project = reactive({
@@ -36,26 +19,14 @@ const project = reactive({
   content: "",
 });
 const projectImg = ref(false)
-// on Mounted
-onBeforeMount(()=>{
-  project.title = computed(()=>{
-    return editTitle.value
-  })
-  project.role = computed(()=>{
-    return editRole.value
-  })
-  project.members = computed(()=>{
-    return editMembers.value
-  })
-  project.scope = computed(()=>{
-    return editScope.value
-  })
-  project.tools = computed(()=>{
-    return editTools.value
-  });
-  project.duration = computed(()=>{
-    return editDuration.value
-  });
+// on BeforeUpdate
+onBeforeUpdate(()=>{
+  project.title = store.currentProjectEdit.title;
+  project.role = store.currentProjectEdit.role;
+  project.members = store.currentProjectEdit.members;
+  project.scope = store.currentProjectEdit.scope;
+  project.duration = store.currentProjectEdit.duration;
+  project.tools = store.currentProjectEdit.tools;
 })
 // handle image upload
 function handleproImgUpload(e) {
@@ -82,7 +53,7 @@ project.content = text;
 
 </script>
 <template>
-  {{project.title}}
+  {{store.currentProjectEdit.title}}
   <div class="btn-row flex flex-row justify-end my-2">
     <button
       class="bg-slate-800 rounded px-4 py-2 mt-4 outline-none hover:bg-slate-500 mr-4 text-white"

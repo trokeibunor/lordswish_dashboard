@@ -48,16 +48,9 @@
           </div>
         </div>
       </main>
+      <!-- Quill Editor -->
       <div class="edit w-11/12 mx-auto">
-        <quill-editor
-        :props-role="projectArray.currentProjectEdit.role" 
-        :props-members="projectArray.currentProjectEdit.members"
-        :props-scope="projectArray.currentProjectEdit.scope"
-        :props-tools="projectArray.currentProjectEdit.tools"
-        :props-content="projectArray.currentProjectEdit.content"
-        :props-duration="projectArray.currentProjectEdit.duration"
-        :props-title="projectArray.currentProjectEdit?.title"
-        v-if="editing"/>
+        <quill-editor v-if="editing"/>
       </div>
     </div>
   </div>
@@ -91,7 +84,7 @@ function notEdit(value){
   this.editing = value
 }
 function editArt(event){
-  let title = event.target.id;
+  var title = event.target.id;
   this.editing = true;
   projectArray.editAritcle(title)
 }

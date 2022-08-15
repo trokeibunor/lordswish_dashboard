@@ -32,7 +32,7 @@ export const useProjectsStore = defineStore('projects', {
       });
     },
     // Get drafts 
-    async getArticles() {
+    async getDrafts() {
       const querySnapshot = await getDocs(collection(db, "drafts"));
       this.drafts = [];
       querySnapshot.forEach((doc) => {
@@ -106,9 +106,10 @@ export const useProjectsStore = defineStore('projects', {
       if (docSnap.exists()) {
         const editableData = docSnap.data()
         this.currentProjectEdit = {...editableData}
+        console.log(this.currentProjectEdit)
       } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
+        const toast = useToast()
+        toast.error("No such document Exists");
       }
     },
     // Delete article
