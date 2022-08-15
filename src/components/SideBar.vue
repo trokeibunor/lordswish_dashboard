@@ -8,25 +8,25 @@ const appData = useAppData()
 <template>
   <aside v-show="appData.sidebar">
     <div class="top">
-      <router-link  @click="appData.changeView('Dashboard'), appData.setPage('')" to="/home"
+      <router-link  @click="appData.changeView('Dashboard'); appData.setPage('')" to="/home"
         ><img src="./icons/chartIcon.svg" 
         /> Dashboard</router-link
       >
-      <router-link @click="appData.changeView('Projects'), appData.setPage('')" to="/projects" 
+      <router-link @click="appData.changeView('Projects'); appData.setPage('')" to="/projects" 
         ><img src="./icons/penIcon.svg" 
         />Projects</router-link
       >
-      <router-link @click="appData.changeView('Messages'), appData.setPage('')" to="/messages"
+      <router-link @click="appData.changeView('Messages'); appData.setPage('')" to="/messages"
         ><img src="./icons/mailIcon.svg" 
         />Messages</router-link
       >
     </div>
     <div class="bottom">
-      <router-link @click="appData.changeView('Settings') , appData.setPage('')" to="/settings"
+      <router-link @click="appData.changeView('Settings'); appData.setPage('')" to="/settings"
         ><img src="./icons/settingsIcon.svg" 
         />Settings</router-link
       >
-      <router-link @click="appData.changeView('Dashboard') , appData.setPage('')" to="logOut"
+      <router-link @click="appData.changeView('Dashboard'); appData.setPage('')" to="logOut"
         ><img src="./icons/logOutIcon.svg" 
         />Logout</router-link
       >

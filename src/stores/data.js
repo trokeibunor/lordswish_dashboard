@@ -1,18 +1,23 @@
 import { defineStore } from "pinia";
+import { useProjectsStore } from "./projects";
 
 export const useAppData = defineStore("data",{
     state: ()=>({
         pageTracker: "",
-        sidebar: false,
-        currentView: "Dashboard"
+        sidebar: true,
+        currentView: ""
     }),
     actions: {
         setPage(selected){
+            const projectData = useProjectsStore()
             this.pageTracker = selected;
+            projectData.currentProjectEdit = null
         },
         changeView(view){
-            this.currentView = view
-            this.sidebar = false
+            this.currentView = view;
+            if(window.innerWidth <= 1024){
+                this.sidebar = false;
+            }
         }
     }
 })

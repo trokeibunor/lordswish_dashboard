@@ -112,11 +112,20 @@ export const useProjectsStore = defineStore('projects', {
         toast.error("No such document Exists");
       }
     },
+    // empty current Edit
+    empEdit(){
+      this.currentProjectEdit = ""
+    },
     // Delete article
     async deleteResource(title) {
       await deleteDoc(doc(db, "projects", title));
       const toast = useToast();
       toast.error(`The Resource -- ${title} has been deleted`);
     },
+    async deleteDraft(title){
+      await deleteDoc(doc(db, "drafts", title));
+      const toast = useToast();
+      toast.error(`The Resource -- ${title} has been deleted`);
+    }
   }
 })

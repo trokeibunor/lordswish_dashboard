@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { useAppData } from "../stores/data";
 const appData = useAppData()
-// const activePage = ref("Dashboard");
 const searchItem = ref("");
 const userName = ref("Lordswish King");
 </script>

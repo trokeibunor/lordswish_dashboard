@@ -1,14 +1,13 @@
 <template>
   <div class="top-card-row">
-    <router-link
+    <div
       class="top-card-box"
       id="new_active"
-      to="/projects"
-      @click="chooseSelected('new'), altNavData.changeView('Dashboard')"
+      @click="chooseSelected('new','/projects'), altNavData.changeView('Dashboard')"
       :class="{active: altNavData.pageTracker == 'new'}"
     >
       <h2>New</h2>
-    </router-link>
+    </div>
     <div
       class="top-card-box"
       id="view_active"
@@ -18,19 +17,19 @@
       <h4 class="muted">Views</h4>
       <h3>{{ siteViews }}</h3>
     </div>
-    <router-link to="/published"
+    <div
       class="top-card-box"
       id="published_active"
       :class="{ active: altNavData.pageTracker == 'published'}"
-      @click="chooseSelected('published'), altNavData.changeView('Dashboard')"
+      @click="chooseSelected('published', '/published'), altNavData.changeView('Dashboard')"
     >
       <h4 class="muted">Published</h4>
       <h3>{{ publishedWorks }}</h3>
-    </router-link>
+    </div>
     <div
       class="top-card-box"
       id="drafts_active"
-      @click="chooseSelected('drafts')"
+      @click="chooseSelected('drafts', '/drafts')"
       :class="{active: altNavData.pageTracker == 'drafts'}, altNavData.changeView('Dashboard')"
     >
       <h4 class="muted">Drafts/Archieves</h4>
@@ -40,20 +39,29 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import router from "../router";
+import { ref, onMounted} from "vue";
 import { useAppData } from "../stores/data";
+import { useProjectsStore } from "../stores/projects";
 
-const altNavData = useAppData()
-const siteViews = ref(16);
-const publishedWorks = ref(58);
-const drafts = ref(68);
-// function notEditing(){
-//   this.$emit('editing', 'false')
-// }
-function chooseSelected(selectedView){
-  // useAppData.setPage(selectedView)
+const altNavData = useAppData();
+const projectData = useProjectsStore();
+const siteViews = ref(0);
+const publishedWorks = ref(0);
+const drafts = ref(0);
+function chooseSelected(selectedView, page){
   altNavData.setPage(selectedView)
+    router.push(page)
 }
+// onMounted
+onMounted(() => {
+  projectData.getArticles()
+  projectData.getDrafts()
+  // 
+  publishedWorks.value = projectData.projectInfo.length;
+  drafts.value = projectData.drafts.length
+})
+
 </script>
 
 <style scoped>

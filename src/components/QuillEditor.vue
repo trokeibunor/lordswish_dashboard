@@ -21,12 +21,14 @@ const project = reactive({
 const projectImg = ref(false)
 // on BeforeUpdate
 onBeforeUpdate(()=>{
-  project.title = store.currentProjectEdit.title;
-  project.role = store.currentProjectEdit.role;
-  project.members = store.currentProjectEdit.members;
-  project.scope = store.currentProjectEdit.scope;
-  project.duration = store.currentProjectEdit.duration;
-  project.tools = store.currentProjectEdit.tools;
+  if(store.currentProjectEdit){
+    project.title = store.currentProjectEdit.title;
+    project.role = store.currentProjectEdit.role;
+    project.members = store.currentProjectEdit.members;
+    project.scope = store.currentProjectEdit.scope;
+    project.duration = store.currentProjectEdit.duration;
+    project.tools = store.currentProjectEdit.tools;
+  }
 })
 // handle image upload
 function handleproImgUpload(e) {
@@ -53,7 +55,7 @@ project.content = text;
 
 </script>
 <template>
-  {{store.currentProjectEdit.title}}
+  <h2 v-if="store.currentProjectEdit">You are currently Editing {{store.currentProjectEdit.title}}</h2>
   <div class="btn-row flex flex-row justify-end my-2">
     <button
       class="bg-slate-800 rounded px-4 py-2 mt-4 outline-none hover:bg-slate-500 mr-4 text-white"
