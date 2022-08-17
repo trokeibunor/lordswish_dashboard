@@ -17,7 +17,8 @@ export const useProjectsStore = defineStore('projects', {
   state: () => ({
     projectInfo : [],
     currentProjectEdit: "",
-    drafts: []
+    drafts: [],
+    messages: []
   }),
   actions: {
     // Get articles
@@ -41,6 +42,14 @@ export const useProjectsStore = defineStore('projects', {
         // mutate projects
         this.drafts.push({ ...dataObject });
       });
+    },
+    async getMessages(){
+      const querySnapshot = await getDocs(collection(db, "messages"));
+      this.messages = [];
+      querySnapshot.forEach((doc) => {
+        const dataObject = doc.data()
+        this.messages({...dataObject})
+      })
     },
     // add article
     async addArticle({title, role, members, scope , duration, tools,image, content}) {
