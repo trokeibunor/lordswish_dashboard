@@ -81,7 +81,7 @@ function conBox(event){
   }
 }
 function notEdit(value){
-  this.editing = value
+  this.editing = value;
 }
 function editArt(event){
   var title = event.target.id;

@@ -1,12 +1,4 @@
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-50">
-    <body class="h-full">
-    ```
-  -->
   <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
       <div>
@@ -59,10 +51,9 @@ async function login(email,password){
         router.push("/home")
     })
     .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode)
-        console.log(error)
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(`${errorCode} : ${errorMessage}`)
     });
 }
 </script>

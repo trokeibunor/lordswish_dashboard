@@ -2,11 +2,12 @@
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { ref, reactive, onBeforeUpdate } from "vue";
+import { ref, reactive, onBeforeUpdate} from "vue";
 // import project store
 import { useProjectsStore } from "../stores/projects";
-const store = useProjectsStore();
 
+const store = useProjectsStore();
+const quill  = ref(null)
 const project = reactive({
   title: "",
   role: "",
@@ -28,6 +29,15 @@ onBeforeUpdate(()=>{
     project.scope = store.currentProjectEdit.scope;
     project.duration = store.currentProjectEdit.duration;
     project.tools = store.currentProjectEdit.tools;
+    quill.value.setHTML(store.currentProjectEdit.content);
+  } else if(store.currentDraftEdit){
+    project.title = store.currentDraftEdit.title;
+    project.role = store.currentDraftEdit.role;
+    project.members = store.currentDraftEdit.members;
+    project.scope = store.currentDraftEdit.scope;
+    project.duration = store.currentDraftEdit.duration;
+    project.tools = store.currentDraftEdit.tools;
+    quill.value.setHTML(store.currentDraftEdit.content);
   }
 })
 // handle image upload
@@ -56,6 +66,7 @@ project.content = text;
 </script>
 <template>
   <h2 v-if="store.currentProjectEdit">You are currently Editing {{store.currentProjectEdit.title}}</h2>
+  <h2 v-else-if="store.currentDraftEdit">You are currently Editing {{store.currentDraftEdit.title}}</h2>
   <div class="btn-row flex flex-row justify-end my-2">
     <button
       class="bg-slate-800 rounded px-4 py-2 mt-4 outline-none hover:bg-slate-500 mr-4 text-white"
@@ -135,6 +146,7 @@ project.content = text;
     </label>
   </div>
   <QuillEditor
+    ref="quill"
     theme="snow"
     toolbar="full"
     class="bg-white my-3"

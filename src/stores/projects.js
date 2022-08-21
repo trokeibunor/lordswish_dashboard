@@ -17,6 +17,7 @@ export const useProjectsStore = defineStore('projects', {
   state: () => ({
     projectInfo : [],
     currentProjectEdit: "",
+    currentDraftEdit: "",
     drafts: [],
     messages: []
   }),
@@ -116,6 +117,21 @@ export const useProjectsStore = defineStore('projects', {
         const editableData = docSnap.data()
         this.currentProjectEdit = {...editableData}
         console.log(this.currentProjectEdit)
+      } else {
+        const toast = useToast()
+        toast.error("No such document Exists");
+      }
+    },
+    // Edit Draft
+    async editDraft(title){
+      // get Draft
+      const docRef = doc(db,"drafts", title);
+      const docSnap = await getDoc(docRef);
+      console.log("getting drafts")
+      if (docSnap.exists()) {
+        const editableData = docSnap.data()
+        this.currentDraftEdit = {...editableData}
+        console.log(this.currentDraftEdit)
       } else {
         const toast = useToast()
         toast.error("No such document Exists");

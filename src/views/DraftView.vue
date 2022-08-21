@@ -4,7 +4,7 @@
         <div class="wrapper">
             <nav-bar/>
             <alt-nav-vue/>
-            <main v-if="projectData.drafts.length != 0">
+            <main v-if="!editing">
                 <div class="draft-grid grid grid-cols-auto lg:grid-cols-3 gap-2 w-11/12 mx-auto">
                 <div class="article-box w-auto h-auto bg-white p-2 rounded hover:shadow-sm" 
                 :id="item?.title"
@@ -44,8 +44,11 @@
           </div>
                 </div>
             </main>
-            <div class="emptyState mx-auto w-11/12 h-100" v-else>
+            <!-- <div class="emptyState mx-auto w-11/12 h-100" v-else>
                 <h1 class="text-center text-lg font-bold mt-16">Ugo You have no drafts, nor Stress me</h1>
+            </div> -->
+            <div class="edit w-11/12 mx-auto">
+              <quill-editor v-if="editing"/>
             </div>
         </div>
     </div>
@@ -58,12 +61,15 @@
 import AltNavVue from '../components/AltNav.vue';
 import SideBar from '../components/SideBar.vue';
 import NavBar from '../components/NavBar.vue';
+import QuillEditor from "../components/QuillEditor.vue"
 import { ref,onMounted } from 'vue';
 // import store
 import { useProjectsStore } from '../stores/projects';
 // functions
 const selectedBox = ref('');
+const editing = ref(false);
 var clickCounter = 0;
+const projectArray = useProjectsStore();
 function conBox(event){
   // step = (clickCounter++ % 2 === 0 ? 3 : 0);
   var step = clickCounter ++;
@@ -77,7 +83,7 @@ function conBox(event){
 function editArt(event){
   var title = event.target.id;
   this.editing = true;
-  projectArray.editAritcle(title)
+  projectArray.editDraft(title);
 }
 function deleteArt(event){
   let title = event.target.id

@@ -29,8 +29,8 @@
     <div
       class="top-card-box"
       id="drafts_active"
-      @click="chooseSelected('drafts', '/drafts')"
-      :class="{active: altNavData.pageTracker == 'drafts'}, altNavData.changeView('Dashboard')"
+      @click="chooseSelected('drafts', '/drafts'),altNavData.changeView('Dashboard')"
+      :class="{active: altNavData.pageTracker == 'drafts'}"
     >
       <h4 class="muted">Drafts/Archieves</h4>
       <h3>{{ drafts }}</h3>
@@ -57,7 +57,6 @@ function chooseSelected(selectedView, page){
 onMounted(() => {
   projectData.getArticles()
   projectData.getDrafts()
-  // 
   publishedWorks.value = projectData.projectInfo.length;
   drafts.value = projectData.drafts.length
 })

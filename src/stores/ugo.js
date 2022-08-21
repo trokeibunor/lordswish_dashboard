@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import {db} from "@/db";
 import {
   setDoc,
+  doc,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 // import vue toastification
@@ -27,7 +28,7 @@ export const useUgoStore = defineStore('ugo',{
       }
     },
     // upload resume
-    async uploadResume(){
+    async uploadResume({title,image}){
       var storage = getStorage();
       const storageRef = ref(storage, title);
       const uploadArticle = await uploadBytes(storageRef, image);
@@ -42,7 +43,8 @@ export const useUgoStore = defineStore('ugo',{
       }
     },
     // upload profile picture
-    async uploadProfilePic(){
+    // get the title
+    async uploadProfilePic({title, image}){
       var storage = getStorage();
       const storageRef = ref(storage, title);
       const uploadArticle = await uploadBytes(storageRef, image);
