@@ -19,7 +19,8 @@ export const useProjectsStore = defineStore('projects', {
     currentProjectEdit: "",
     currentDraftEdit: "",
     drafts: [],
-    messages: []
+    messages: [],
+    editing: false,
   }),
   actions: {
     // Get articles
@@ -58,6 +59,13 @@ export const useProjectsStore = defineStore('projects', {
       const storageRef = ref(storage, title);
       const uploadArticle = await uploadBytes(storageRef, image);
       const downloadUrl = await getDownloadURL(uploadArticle.ref);
+      // Submit Form
+      var select = content;
+      // Calculate words per minute using standard words per hour
+      const text = select;
+      const wpm = 225;
+      const words = text.trim().split(/\s+/).length;
+      const time = Math.ceil(words / wpm);
       try {
         // push to firebase
         await setDoc(doc(db, "projects", title), {
@@ -68,6 +76,7 @@ export const useProjectsStore = defineStore('projects', {
           scope: scope,
           duration: duration,
           tools: tools,
+          timeToRead: time,
           content: content,
           created: serverTimestamp(),
         });
@@ -110,13 +119,13 @@ export const useProjectsStore = defineStore('projects', {
     },
     // edit article
     async editAritcle(title){
+      this.editing = true;
       // get article
       const docRef = doc(db, "projects", title);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const editableData = docSnap.data()
         this.currentProjectEdit = {...editableData}
-        console.log(this.currentProjectEdit)
       } else {
         const toast = useToast()
         toast.error("No such document Exists");
@@ -124,14 +133,13 @@ export const useProjectsStore = defineStore('projects', {
     },
     // Edit Draft
     async editDraft(title){
+      this.editing = true;
       // get Draft
       const docRef = doc(db,"drafts", title);
       const docSnap = await getDoc(docRef);
-      console.log("getting drafts")
       if (docSnap.exists()) {
         const editableData = docSnap.data()
         this.currentDraftEdit = {...editableData}
-        console.log(this.currentDraftEdit)
       } else {
         const toast = useToast()
         toast.error("No such document Exists");
@@ -139,7 +147,8 @@ export const useProjectsStore = defineStore('projects', {
     },
     // empty current Edit
     empEdit(){
-      this.currentProjectEdit = ""
+      this.currentProjectEdit = "";
+      this.currentDraftEdit = "";
     },
     // Delete article
     async deleteResource(title) {

@@ -2,9 +2,10 @@
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { ref, reactive, onBeforeUpdate} from "vue";
+import { ref, reactive,} from "vue";
 // import project store
 import { useProjectsStore } from "../stores/projects";
+
 
 const store = useProjectsStore();
 const quill  = ref(null)
@@ -19,9 +20,11 @@ const project = reactive({
   timeToRead: "",
   content: "",
 });
-const projectImg = ref(false)
-// on BeforeUpdate
-onBeforeUpdate(()=>{
+const hasBeganEdit = ref(true)
+const projectImg = ref(false);
+// update reactive prop
+function updateEdit() {
+  hasBeganEdit.value = false;
   if(store.currentProjectEdit){
     project.title = store.currentProjectEdit.title;
     project.role = store.currentProjectEdit.role;
@@ -30,16 +33,16 @@ onBeforeUpdate(()=>{
     project.duration = store.currentProjectEdit.duration;
     project.tools = store.currentProjectEdit.tools;
     quill.value.setHTML(store.currentProjectEdit.content);
-  } else if(store.currentDraftEdit){
-    project.title = store.currentDraftEdit.title;
-    project.role = store.currentDraftEdit.role;
-    project.members = store.currentDraftEdit.members;
-    project.scope = store.currentDraftEdit.scope;
-    project.duration = store.currentDraftEdit.duration;
-    project.tools = store.currentDraftEdit.tools;
-    quill.value.setHTML(store.currentDraftEdit.content);
-  }
-})
+    } else if(store.currentDraftEdit){
+      project.title = store.currentDraftEdit.title;
+      project.role = store.currentDraftEdit.role;
+      project.members = store.currentDraftEdit.members;
+      project.scope = store.currentDraftEdit.scope;
+      project.duration = store.currentDraftEdit.duration;
+      project.tools = store.currentDraftEdit.tools;
+      quill.value.setHTML(store.currentDraftEdit.content);
+    }
+}
 // handle image upload
 function handleproImgUpload(e) {
   // const self = this;
@@ -50,23 +53,50 @@ function handleproImgUpload(e) {
     project.image = reader.result;
   };
 }
-// Submit Form
-var select = project.content;
-// Calculate words per minute
-const text = select;
-const wpm = 225;
-const words = text.trim().split(/\s+/).length;
-const time = Math.ceil(words / wpm);
-// add to data
-project.timeToRead = time;
-project.content = text;
-// call method from store
-// click article button
-
 </script>
 <template>
-  <h2 v-if="store.currentProjectEdit">You are currently Editing {{store.currentProjectEdit.title}}</h2>
-  <h2 v-else-if="store.currentDraftEdit">You are currently Editing {{store.currentDraftEdit.title}}</h2>
+  <template v-if="store.editing">
+    <div v-if="store.currentProjectEdit">
+      <h2 
+        v-if="hasBeganEdit"
+        class="font-bold" 
+        >
+        You are about Editing {{store.currentProjectEdit.title}}
+      </h2>
+      <h2 
+        v-if="!hasBeganEdit"
+        class="font-bold" 
+        >
+        You are Editing {{store.currentProjectEdit.title}}
+      </h2>
+      <button 
+        v-if="hasBeganEdit"
+        class="py-2 px-3 bg-cyan-500 rounded"
+        @click="updateEdit()"
+       >Start Editing
+      </button>
+    </div>
+    <div v-else-if="store.currentDraftEdit">
+      <h2 
+        v-if="hasBeganEdit"
+        class="font-bold" 
+        >
+        You are about Editing {{store.currentDraftEdit.title}}
+      </h2>
+      <h2 
+        v-if="!hasBeganEdit"
+        class="font-bold" 
+        >
+        You are Editing {{store.currentDraftEdit.title}}
+      </h2>
+      <button
+        v-if="hasBeganEdit"
+        class="py-2 px-3 bg-cyan-500 rounded"
+        @click="updateEdit()"
+        >Start Editing
+      </button>
+    </div>
+  </template>
   <div class="btn-row flex flex-row justify-end my-2">
     <button
       class="bg-slate-800 rounded px-4 py-2 mt-4 outline-none hover:bg-slate-500 mr-4 text-white"
@@ -89,6 +119,7 @@ project.content = text;
       >
       <input
         class="border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500 outline-none px-4 py-2 rounded"
+        :disabled="!hasBeganEdit"
         v-model="project.title"
       />
     </label>

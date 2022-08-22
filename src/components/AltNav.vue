@@ -44,14 +44,18 @@ import { ref, onMounted} from "vue";
 import { useAppData } from "../stores/data";
 import { useProjectsStore } from "../stores/projects";
 
+
 const altNavData = useAppData();
 const projectData = useProjectsStore();
 const siteViews = ref(0);
 const publishedWorks = ref(0);
 const drafts = ref(0);
 function chooseSelected(selectedView, page){
-  altNavData.setPage(selectedView)
-    router.push(page)
+  if(selectedView == "new"){
+    projectData.editing = false
+  }
+  altNavData.setPage(selectedView);
+  router.push(page)
 }
 // onMounted
 onMounted(() => {
