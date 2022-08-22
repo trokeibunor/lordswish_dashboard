@@ -2,7 +2,7 @@
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { ref, reactive,} from "vue";
+import { ref, reactive, onMounted} from "vue";
 // import project store
 import { useProjectsStore } from "../stores/projects";
 
@@ -20,7 +20,8 @@ const project = reactive({
   timeToRead: "",
   content: "",
 });
-const hasBeganEdit = ref(true)
+// const isEditing = ref(false);
+const hasBeganEdit = ref(true);
 const projectImg = ref(false);
 // update reactive prop
 function updateEdit() {
@@ -43,6 +44,9 @@ function updateEdit() {
       quill.value.setHTML(store.currentDraftEdit.content);
     }
 }
+onMounted(()=>{
+  // isEditing.value = store.editing;
+})
 // handle image upload
 function handleproImgUpload(e) {
   // const self = this;
@@ -55,7 +59,7 @@ function handleproImgUpload(e) {
 }
 </script>
 <template>
-  <template v-if="store.editing">
+  <template v-if="store.edited">
     <div v-if="store.currentProjectEdit">
       <h2 
         v-if="hasBeganEdit"

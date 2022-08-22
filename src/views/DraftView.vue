@@ -4,7 +4,7 @@
         <div class="wrapper">
             <nav-bar/>
             <alt-nav-vue/>
-            <main v-if="!editing">
+            <main v-if="!projectArray.edited">
                 <div class="draft-grid grid grid-cols-auto lg:grid-cols-3 gap-2 w-11/12 mx-auto">
                 <div class="article-box w-auto h-auto bg-white p-2 rounded hover:shadow-sm" 
                 :id="item?.title"
@@ -29,7 +29,7 @@
               <a
                 href="#"
                 :id="item?.title"
-                @click="editArt($event)"
+                @click="projectArray.editDraft($event.target.id)"
                 class="w-11/12 h-fit px-2 py-1 bg-slate-300 rounded text-center m-1 hover:bg-slate-500"
                 >Edit</a
               >
@@ -44,11 +44,8 @@
           </div>
                 </div>
             </main>
-            <!-- <div class="emptyState mx-auto w-11/12 h-100" v-else>
-                <h1 class="text-center text-lg font-bold mt-16">Ugo You have no drafts, nor Stress me</h1>
-            </div> -->
             <div class="edit w-11/12 mx-auto">
-              <quill-editor v-if="editing"/>
+              <quill-editor v-if="projectArray.edited"/>
             </div>
         </div>
     </div>
@@ -67,7 +64,7 @@ import { ref,onMounted } from 'vue';
 import { useProjectsStore } from '../stores/projects';
 // functions
 const selectedBox = ref('');
-const editing = ref(false);
+// const editing = ref(false);
 var clickCounter = 0;
 const projectArray = useProjectsStore();
 function conBox(event){
@@ -80,11 +77,11 @@ function conBox(event){
     selectedBox.value = ''
   }
 }
-function editArt(event){
-  var title = event.target.id;
-  this.editing = true;
-  projectArray.editDraft(title);
-}
+// function editArt(event){
+//   var title = event.target.id;
+//   this.editing= true;
+//   projectArray.editDraft(title);
+// }
 function deleteArt(event){
   let title = event.target.id
   if(confirm("Are you sure you want to do this")){
@@ -94,11 +91,9 @@ function deleteArt(event){
 const projectData = useProjectsStore();
 onMounted(() => {
     projectData.getDrafts()
-    console.log(projectData.drafts)
 })
 
 </script>
-
 <style scoped>
 
 </style>

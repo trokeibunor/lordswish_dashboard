@@ -3,8 +3,8 @@
     <Sidebar/>
     <div class="wrapper">
       <nav-bar/>
-      <alt-nav-vue @notEditing="notEdit($event)" />
-      <main v-if="!editing" >
+      <alt-nav-vue />
+      <main v-if="!projectArray.edited" >
         <!-- List of published works -->
         <div
           class="article-grid grid grid-cols-auto lg:grid-cols-3 gap-2 w-11/12 mx-auto"
@@ -33,7 +33,7 @@
               <a
                 href="#"
                 :id="item?.title"
-                @click="editArt($event)"
+                @click="projectArray.editAritcle($event.target.id)"
                 class="w-11/12 h-fit px-2 py-1 bg-slate-300 rounded text-center m-1 hover:bg-slate-500"
                 >Edit</a
               >
@@ -50,7 +50,7 @@
       </main>
       <!-- Quill Editor -->
       <div class="edit w-11/12 mx-auto">
-        <quill-editor v-if="editing"/>
+        <quill-editor v-if="projectArray.edited"/>
       </div>
     </div>
   </div>
@@ -67,6 +67,7 @@ import NavBar from "../components/NavBar.vue";
 import Sidebar from "../components/SideBar.vue"
 const projectArray = useProjectsStore();
 const selectedBox = ref('');
+// const editing = ref(false)
 // functions
 var clickCounter = 0;
 function conBox(event){
@@ -79,13 +80,11 @@ function conBox(event){
     selectedBox.value = ''
   }
 }
-function notEdit(value){
-  this.editing = value;
-}
-function editArt(event){
-  var title = event.target.id;
-  projectArray.editAritcle(title)
-}
+// function editArt(event){
+//   this.editing = true;
+//   var title = event.target.id;
+//   projectArray.editAritcle(title)
+// }
 function deleteArt(event){
   let title = event.target.id
   if(confirm("Are you sure you want to do this")){

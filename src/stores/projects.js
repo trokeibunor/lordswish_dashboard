@@ -20,7 +20,7 @@ export const useProjectsStore = defineStore('projects', {
     currentDraftEdit: "",
     drafts: [],
     messages: [],
-    editing: false,
+    edited: false,
   }),
   actions: {
     // Get articles
@@ -119,7 +119,7 @@ export const useProjectsStore = defineStore('projects', {
     },
     // edit article
     async editAritcle(title){
-      this.editing = true;
+      this.edited = true;
       // get article
       const docRef = doc(db, "projects", title);
       const docSnap = await getDoc(docRef);
@@ -133,7 +133,7 @@ export const useProjectsStore = defineStore('projects', {
     },
     // Edit Draft
     async editDraft(title){
-      this.editing = true;
+      this.edited = true;
       // get Draft
       const docRef = doc(db,"drafts", title);
       const docSnap = await getDoc(docRef);

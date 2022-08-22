@@ -1,4 +1,5 @@
 <template>
+{{projectData.edited}}
   <div class="top-card-row">
     <div
       class="top-card-box"
@@ -51,9 +52,8 @@ const siteViews = ref(0);
 const publishedWorks = ref(0);
 const drafts = ref(0);
 function chooseSelected(selectedView, page){
-  if(selectedView == "new"){
-    projectData.editing = false
-  }
+ 
+    projectData.edited = false
   altNavData.setPage(selectedView);
   router.push(page)
 }
