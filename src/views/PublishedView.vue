@@ -67,7 +67,6 @@ import NavBar from "../components/NavBar.vue";
 import Sidebar from "../components/SideBar.vue"
 const projectArray = useProjectsStore();
 const selectedBox = ref('');
-const editing = ref(false);
 // functions
 var clickCounter = 0;
 function conBox(event){
@@ -85,7 +84,6 @@ function notEdit(value){
 }
 function editArt(event){
   var title = event.target.id;
-  this.editing = true;
   projectArray.editAritcle(title)
 }
 function deleteArt(event){
