@@ -1,5 +1,4 @@
 <template>
-{{projectData.edited}}
   <div class="top-card-row">
     <div
       class="top-card-box"
