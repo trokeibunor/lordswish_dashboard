@@ -20,6 +20,7 @@ export const useProjectsStore = defineStore('projects', {
     currentDraftEdit: "",
     drafts: [],
     messages: [],
+    uiProjects: [],
     edited: false,
   }),
   actions: {
@@ -45,6 +46,7 @@ export const useProjectsStore = defineStore('projects', {
         this.drafts.push({ ...dataObject });
       });
     },
+    // Get Messages
     async getMessages(){
       const querySnapshot = await getDocs(collection(db, "messages"));
       this.messages = [];
@@ -53,6 +55,7 @@ export const useProjectsStore = defineStore('projects', {
         this.messages({...dataObject})
       })
     },
+    // Get UiProjects
     // add article
     async addArticle({title, role, members, scope , duration, tools,image, content}) {
       var storage = getStorage();
@@ -117,6 +120,29 @@ export const useProjectsStore = defineStore('projects', {
         }
       }
     },
+    // Add to UI projects   
+    async addUIproject({title, link, img, features}){
+      var storage = getStorage();
+      const storageRef = ref(storage, title);
+      const uploadArticle = await uploadBytes(storageRef, img);
+      const downloadUrl = await getDownloadURL(uploadArticle.ref);
+      try {
+        await setDoc(doc(db, "uiprojects", title),{
+          title: title,
+          route: link,
+          img_link: downloadUrl,
+          features: features
+        })
+        const toast = useToast();
+        toast.success('Project has been added to database')
+      } catch (error) {
+        console.log(error);
+        if(error){
+          const toast = useToast();
+          toast.error(`error: ${error}`)
+        }
+      }
+    }, 
     // edit article
     async editAritcle(title){
       this.edited = true;

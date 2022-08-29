@@ -10,11 +10,11 @@
     </div>
     <div
       class="top-card-box"
-      id="view_active"
-      :class="{active: altNavData.pageTracker == 'views'}"
-      @click="chooseSelected('views'), altNavData.changeView('Dashboard')"
+      id="uiprojects"
+      :class="{active: altNavData.pageTracker == 'uiprojects'}"
+      @click="chooseSelected('uiprojects', '/uiprojects'), altNavData.changeView('Dashboard')"
     >
-      <h4 class="muted">Views</h4>
+      <h4 class="muted">UI Projects</h4>
       <h3>{{ siteViews }}</h3>
     </div>
     <div
@@ -51,7 +51,6 @@ const siteViews = ref(0);
 const publishedWorks = ref(0);
 const drafts = ref(0);
 function chooseSelected(selectedView, page){
- 
     projectData.edited = false
   altNavData.setPage(selectedView);
   router.push(page)
@@ -90,10 +89,6 @@ onMounted(() => {
   align-items: center;
   flex-direction: column;
   cursor: pointer;
-}
-.top-card-box:nth-child(2){
-  
-  cursor:not-allowed;
 }
 .top-card-box:hover {
   border: 2px solid #888;

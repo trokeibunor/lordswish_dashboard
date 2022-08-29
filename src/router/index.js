@@ -7,6 +7,7 @@ import SettingsView from "../views/SettingsView.vue";
 import LogOutViewVue from "../views/LogOutView.vue";
 import PublishedView from "../views/PublishedView.vue";
 import DraftView from "../views/DraftView.vue";
+import UiProjects from "../views/UiProjects.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
       path: "/drafts",
       name: "drafts",
       component: DraftView
+    },
+    {
+      path: "/uiprojects",
+      name: "uiprojects",
+      component: UiProjects,
     }
   ],
 });
