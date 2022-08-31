@@ -86,11 +86,6 @@ function conBox(event) {
     selectedBox.value = "";
   }
 }
-// function editArt(event){
-//   var title = event.target.id;
-//   this.editing= true;
-//   projectArray.editDraft(title);
-// }
 function deleteArt(event) {
   let title = event.target.id;
   if (confirm("Are you sure you want to do this")) {

@@ -9,7 +9,7 @@
         <template v-if="!addingNewProjects">
             <!-- ui if there is no project -->
             <div 
-                v-if="!areProjectsAvailable"
+                v-if="!Boolean(projectData.uiProjects.length)"
                 class="w-11/12 mx-auto my-2 flex flex-col justify-center items-center">
                 <p class="text-lg text-center font-bold">
                     You currently do not have any UI projects
@@ -20,7 +20,7 @@
             </div>
             <!-- UI if there are projects -->
             <div 
-                v-if="areProjectsAvailable"
+                v-else
                 class="w-11/12 mx-auto">
                 <!-- add New project button -->
                 <button 
@@ -30,12 +30,16 @@
                 <!-- article grid -->
                 <div class="grid grid-cols-auto lg:grid-cols-3 gap-2">
                     <!-- Article card -->
-                    <div class="article-box w-auto h-auto bg-white p-2 rounded hover:shadow-sm">
-                        <img src="https://picsum.photos/200" alt="" srcset="">
+                    <div 
+                        :id="item?.title"
+                        v-for="item in projectData.uiProjects"
+                        :key="item?.title"
+                        class="article-box w-auto h-auto bg-white p-2 rounded hover:shadow-sm">
+                        <img :src="item?.img_link" alt="" srcset="">
                         <div class="bt-row flex flex-row justify-between">
                             <div>
-                                <p class="title font-semibold">PlaceHolder Title</p>
-                                <p class="date font-light text-xs ">PlaceHolder Date</p>
+                                <p class="title font-semibold">{{item?.title}}</p>
+                                <p class="date font-light text-xs ">{{(item?.created).toDate()}}</p>
                             </div>
                             <button class="w-6" :id="item?.title" @click="conBox($event)">
                                 <img :id="item?.title" src="../components/icons/dots_veritcal.svg" alt="" />
@@ -46,13 +50,6 @@
                         class="EandDbox relative bottom-3/4 left-1/3 w-fit h-fit p-4 flex flex-col bg-slate-100 rounded shadow-sm"
                         v-if="Boolean(selectedBox == item?.title)"
                         >
-                            <a
-                                href="#"
-                                :id="item?.title"
-                                @click="projectArray.editAritcle($event.target.id)"
-                                class="w-11/12 h-fit px-2 py-1 bg-slate-300 rounded text-center m-1 hover:bg-slate-500"
-                                >Edit</a
-                            >
                             <a
                                 href="#"
                                 class="w-11/12 h-fit px-4 py-1 bg-red-600 text-white rounded m-1 hover:bg-red-800"
@@ -102,7 +99,7 @@
                 />
             </div>
             <div class="form-content flex-col my-1">
-                <p class="font-semibold text-md my-1">Project Features</p>
+                <p class="font-semibold text-md my-1">Project Image</p>
                 <input 
                     type="file" 
                     class="w-full  bg-slate-300 outline-none rounded-sm pl-2 py-1" 
@@ -111,7 +108,10 @@
                     :state = "Boolean(projectImg)"
                 />
             </div>
-            <button @click="submitForm">Save Project</button>
+            <button 
+                @click="projectData.addUIproject(UiProject)"
+                class="bg-cyan-600 my-4 rounded-sm text-white py-2"
+            >Save Project</button>
         </div>
       </main>
     </div>
@@ -122,9 +122,12 @@
 import SideBar from "../components/SideBar.vue";
 import NavBar from "../components/NavBar.vue";
 import AltNav from "../components/AltNav.vue";
+import {useProjectsStore} from "../stores/projects"
+import {ref, reactive, onMounted} from "vue";
+const projectData = useProjectsStore();
 // UI display variables
-import {ref, reactive} from "vue";
-const areProjectsAvailable = ref(false);
+
+// const areProjectsAvailable = ref(false);
 const addingNewProjects = ref(false);
 const projectImg = ref(false);
 // Form components
@@ -135,7 +138,6 @@ const UiProject = reactive({
     features:""
 })
 // handleImageUpload
-// handle image upload
 function handleUpImgUpload(e) {
   // const self = this;
   const file = e.target.files[0];
@@ -145,6 +147,28 @@ function handleUpImgUpload(e) {
     UiProject.img = reader.result;
   };
 }
+const selectedBox = ref("");
+// const editing = ref(false);
+var clickCounter = 0;
+function conBox(event) {
+  // step = (clickCounter++ % 2 === 0 ? 3 : 0);
+  var step = clickCounter++;
+
+  var target = event.target.id;
+  selectedBox.value = target;
+  if (step % 2 === 0) {
+    selectedBox.value = "";
+  }
+}
+function deleteArt(event) {
+  let title = event.target.id;
+  if (confirm("Are you sure you want to do this")) {
+    projectData.deleteProject(title);
+  }
+}
+onMounted(()=>{
+    projectData.getUiProjects()
+})
 </script>
 
 <style scoped></style>

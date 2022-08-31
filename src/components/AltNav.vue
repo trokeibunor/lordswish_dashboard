@@ -59,8 +59,10 @@ function chooseSelected(selectedView, page){
 onMounted(() => {
   projectData.getArticles()
   projectData.getDrafts()
+  projectData.getUiProjects()
   publishedWorks.value = projectData.projectInfo.length;
-  drafts.value = projectData.drafts.length
+  drafts.value = projectData.drafts.length;
+  siteViews.value = projectData.uiProjects.length;
 })
 
 </script>

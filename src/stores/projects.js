@@ -56,6 +56,17 @@ export const useProjectsStore = defineStore('projects', {
       })
     },
     // Get UiProjects
+    async getUiProjects(){
+      const querySnapshot = await getDocs(collection(db, "uiprojects"));
+      this.uiProjects = [];
+      querySnapshot.forEach((doc) => {
+        const dataObject = doc.data();
+        // Actions can mutate state in pinia
+        // mutate projects
+        this.uiProjects.push({ ...dataObject });
+        console.log(this.uiProjects)
+      });
+    },
     // add article
     async addArticle({title, role, members, scope , duration, tools,image, content}) {
       var storage = getStorage();
@@ -131,7 +142,8 @@ export const useProjectsStore = defineStore('projects', {
           title: title,
           route: link,
           img_link: downloadUrl,
-          features: features
+          features: features,
+          created: serverTimestamp(),
         })
         const toast = useToast();
         toast.success('Project has been added to database')
@@ -184,6 +196,11 @@ export const useProjectsStore = defineStore('projects', {
     },
     async deleteDraft(title){
       await deleteDoc(doc(db, "drafts", title));
+      const toast = useToast();
+      toast.error(`The Resource -- ${title} has been deleted`);
+    },
+    async deleteProject(title){
+      await deleteDoc(doc(db, "uiprojects", title));
       const toast = useToast();
       toast.error(`The Resource -- ${title} has been deleted`);
     }
